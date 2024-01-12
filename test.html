@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab1</title>
+</head>
+
+<body>
+    <table id="tableid" style="border: 1px solid black;">
+        <tr>
+            <td>Row 1 cell1</td>
+            <td>Row 1 cell2</td>
+        </tr>
+        <tr>
+            <td>Row 2 cell1</td>
+            <td>Row 2 cell2</td>
+        </tr>
+        <tr>
+            <td>Row 3 cell1</td>
+            <td>Row 3 cell2</td>
+        </tr>
+        <tr>
+            <td>Row 4 cell1</td>
+            <td>Row 4 cell2</td>
+        </tr>
+        <tr>
+            <td>Row 5 cell1</td>
+            <td>Row 5 cell2</td>
+        </tr>
+    </table>
+    <br><br>
+    <button style="padding: 10px;" onclick="addTop()">Insert row</button>
+    <button style="padding: 10px;" onclick="deleteTop()">Delete row from top</button>
+    <button style="padding: 10px;" onclick="deleteBottom()">Delete row from bottom</button>
+    <br><br>
+    <p id="error" class=""></p>
+
+    <style>
+        .nomorerow {
+            display: none;
+        }
+
+        p {
+            color: black;
+        }
+
+        tr {
+            font-size: 30px;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        td {
+            padding: 9px;
+            font-size: 30px;
+            border: 1px solid black;
+        }
+    </style>
+
+    <script>
+        let x = 6;
+
+        function rowsError() {
+            var errorClass = document.getElementById("error");
+            var tableTaking = document.getElementById('tableid');
+
+            if (tableTaking.rows.length == 0) {
+                errorClass.classList.remove("nomorerow")
+            }
+            else if (tableTaking.rows.length > 0) {
+                errorClass.classList.add("nomorerow")
+
+            }
+        }
+
+        function addTop() {
+            var top = document.getElementById('tableid');
+            var row = top.insertRow(-1);
+            cell1 = row.insertCell(0);
+            cell2 = row.insertCell(1);
+            cell1.innerHTML = "Row " + x + " cell" + (cell1.cellIndex + 1);
+            cell2.innerHTML = "Row " + x + " cell" + (cell2.cellIndex + 1);
+            x++;
+            rowsError()
+        }
+
+        function deleteTop() {
+            var tableTaking = document.getElementById('tableid');
+            if (tableTaking.rows.length > 0) {
+                tableTaking.deleteRow(0);
+            } else {
+                document.getElementById("error").innerHTML = "Message: No more rows to delete";
+                rowsError()
+            }
+        }
+
+        function deleteBottom() {
+            var tableTaking = document.getElementById('tableid');
+            if (tableTaking.rows.length > 0) {
+                tableTaking.deleteRow(-1);
+            } else {
+                document.getElementById("error").innerHTML = "Message: No more rows to delete";
+                rowsError()
+            }
+        }
+    </script>
+</body>
+
+</html>
