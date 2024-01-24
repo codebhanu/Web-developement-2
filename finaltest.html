@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .error {
+        background-color: red;
+      }
+
+      table {
+        text-align: center;
+        margin-left: 10%;
+        margin-right: 50%;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
+      input,
+      button {
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div align="center">
+      <h1>Booking your place for your dinner!</h1>
+
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        size="22"
+        class=""
+        onblur="validaitonForm('name')"
+      />
+
+      <label for="phone">Phone Number</label>
+      <input
+        type="text"
+        id="phone"
+        size="22"
+        class=""
+        onblur="validatPhoneNumber()"
+      /><br />
+    </div>
+    <br />
+    <div align="margin-left">
+      <h2>Select a time</h2>
+      <input type="radio" id="first" name="firstSeating" value="5" checked />
+      <label for="first">5:00</label><br />
+      <input type="radio" id="second" name="firstSeating" value="6" />
+      <label for="second">6:00</label><br />
+      <input type="radio" id="third" name="firstSeating" value="7" />
+      <label for="third">7:00</label><br />
+      <input type="radio" id="fourth" name="firstSeating" value="8" />
+      <label for="fourth">8:00</label><br />
+      <br />
+      <h2>What would you like to have with us?</h2>
+      <input type="checkbox" id="starts" name="starters" value="Starters" />
+      <label for="starts">Starters</label><br />
+      <input type="checkbox" id="main" name="starters" value="Main Course" />
+      <label for="main">Main Course</label><br />
+      <input type="checkbox" id="dessert" name="starters" value="dessert" />
+      <label for="dessert">dessert</label><br />
+      <input type="checkbox" id="drinks" name="starters" value="Drinks" />
+      <label for="drinks">Drinks</label><br />
+    </div>
+    <button onclick="reservation()" id="submit" disabled>Submit</button>
+    <p id="error"></p>
+
+    <script>
+      var errorForInvalidInput = document.getElementById("error");
+
+      function validaitonForm(idFromTheForm) {
+        idOfField = document.getElementById(idFromTheForm);
+        inputName = idOfField.value.trim();
+
+        if (inputName === "") {
+          errorForInvalidInput.textContent = "Error:Name is empty.";
+          idOfField.classList.add("error");
+        } else if (/[!@#$%^&*(),.?":{}|<>0-9]/.test(inputName)) {
+          errorForInvalidInput.textContent =
+            "Error:Name is not  valid as it contains special charaters or numbers";
+          idOfField.classList.add("error");
+        } else {
+          var lengthOfUsername = inputName.split(" ");
+
+          if (lengthOfUsername.length < 2) {
+            errorForInvalidInput.textContent =
+              "Error:First and Last Name is required.";
+            idOfField.classList.add("error");
+          } else {
+            idOfField.classList.remove("error");
+            errorForInvalidInput.textContent = "";
+          }
+        }
+      }
+      function validatPhoneNumber() {
+        var getPhoneNumber = document.getElementById("phone");
+        phoneNumber = getPhoneNumber.value.trim();
+
+        if (phoneNumber == "") {
+          errorForInvalidInput.textContent = "Error:Phone Number is empty.";
+          getPhoneNumber.classList.add("error");
+        } else if (/[!@#$%^&*(),.?":{}|<>]/.test(phoneNumber)) {
+          errorForInvalidInput.textContent =
+            "Error:Phone Number contains special  character.";
+          getPhoneNumber.classList.add("error");
+        } else if (phoneNumber.length !== 6) {
+          errorForInvalidInput.textContent =
+            "Error:Phone numbers must have exactly 6 characters.";
+          getPhoneNumber.classList.add("error");
+        } else if (!/^\d/.test(phoneNumber)) {
+          errorForInvalidInput.textContent =
+            "Error:Phone number must start with numbers.";
+          getPhoneNumber.classList.add("error");
+        } else {
+          getPhoneNumber.classList.remove("error");
+          errorForInvalidInput.textContent = "";
+        }
+
+        if (errorForInvalidInput.textContent == "") {
+          document.getElementById("submit").disabled = false;
+        } else {
+          document.getElementById("submit").disabled = true;
+        }
+      }
+
+      function reservation() {
+        if (errorForInvalidInput.textContent == "") {
+          var radiobuttons = document.getElementsByName("firstSeating");
+
+          let seleced = "";
+
+          for (radiobuttons of radiobuttons) {
+            if (radiobuttons.checked) {
+              seleced = radiobuttons.value;
+            }
+          }
+
+          var checkboxes = document.getElementsByName("starters");
+
+          let items = [];
+
+          for (checkboxes of checkboxes) {
+            if (checkboxes.checked) {
+              items.push(checkboxes.value);
+            }
+          }
+
+          errorForInvalidInput.textContent =
+            "Reservation For: " +
+            inputName +
+            " Phone:(" +
+            phoneNumber +
+            ")" +
+            " at " +
+            seleced +
+            " Starters are: " +
+            items +
+            ".";
+        }
+      }
+    </script>
+  </body>
+</html>
